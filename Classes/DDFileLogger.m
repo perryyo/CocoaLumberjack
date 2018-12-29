@@ -441,7 +441,10 @@ unsigned long long const kDDDefaultLogFilesDiskQuota   = 20 * 1024 * 1024; // 20
     }
     
     // Ensure that we have a newline at the end of the string
-    fileHeaderStr = [NSString stringWithFormat:@"%@\n", fileHeaderStr];
+    unichar lastChar = [fileHeaderStr characterAtIndex:fileHeaderStr.length - 1];
+    if (![[NSCharacterSet newlineCharacterSet] characterIsMember:lastChar]) {
+        fileHeaderStr = [fileHeaderStr stringByAppendingString:@"\n"];
+    }
     
     NSData *fileHeaderData = [fileHeaderStr dataUsingEncoding:NSUTF8StringEncoding];
     return fileHeaderData;
